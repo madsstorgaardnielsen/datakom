@@ -20,7 +20,6 @@ public class Envelope {
 
     /* The actual message */
     public Message Message;
-    public String Img;
 
     /* Create the envelope. */
     public Envelope(Message message, String localServer) throws UnknownHostException {
@@ -62,15 +61,4 @@ public class Envelope {
         message.Body = escapedBody;
         return message;
     }
-
-    /* For printing the envelope. Only for debug. */
-/*    public String toString() {
-        String res = "Sender: " + Sender + '\n';
-        res += "Recipient: " + Recipient + '\n';
-        res += "MX-host: " + DestHost + ", address: " + DestAddr + '\n';
-        res += "Message:" + '\n';
-        res += Message.toString();
-
-        return res;
-    }*/
 }

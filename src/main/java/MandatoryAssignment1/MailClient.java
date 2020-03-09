@@ -15,15 +15,17 @@ public class MailClient extends Frame {
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
     private Label serverLabel = new Label("Mailserver:");
-    private TextField serverField = new TextField("74.125.129.27", 40); //dtu mailserver
+    private TextField serverField = new TextField("74.125.129.27", 40); //google mailserver
+    //private TextField serverField = new TextField("104.47.2.36", 40); //dtu mailserver
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("virknuasddsaasdforfanden@nduaibdfauidasu.duasnsuadnsia", 40); //from
+    private TextField fromField = new TextField("s185132@student.dtu.dk", 40); //from
     private Label toLabel = new Label("To:");
     private TextField toField = new TextField("madsstorgaardnielsen@gmail.com", 40);
+    //private TextField toField = new TextField("s180076@win.dtu.dk", 40);
     private Label subjectLabel = new Label("Subject:");
-    private TextField subjectField = new TextField("123", 40);
+    private TextField subjectField = new TextField("Hejsa!", 40);
     private Label messageLabel = new Label("Message:");
-    private TextArea messageText = new TextArea("cxzcxzcxz", 5, 40); //besked
+    private TextArea messageText = new TextArea("Her er et billede: ", 5, 40); //besked
 
     /**
      * Create a new MailClient window with fields for entering all

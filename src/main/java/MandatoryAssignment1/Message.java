@@ -21,7 +21,11 @@ public class Message {
     public String Body;
     private String From;
     private String To;
+
+    //the method encodes the string into base64, and then the string is saved in the variable
     public String base64EncodedPic = encodeToString();
+
+    //a variable used to create boundaries within the sent email
     public String messageSeperator = "sep";
 
     public Message(String from, String to, String subject, String text) throws IOException {
@@ -30,30 +34,35 @@ public class Message {
         SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
 
-        Headers = "MIME-Version: 1.0" + CRLF;
+        //the headers
+        Headers = "MIME-Version: 1.0" + CRLF; //MIME is a standard which supports text other than ASCII as well as attachments of different file formats such as images.
         Headers += "Date: " + dateString + CRLF;
-        Headers += "From: Mads Storgaard-Nielsen " + "<" + From + ">" + CRLF;
+        Headers += "From: Hans Peter Byager " + "<" + From + ">" + CRLF;
         Headers += "To: " + To + CRLF;
         Headers += "Subject: " + subject.trim() + CRLF;
-        Headers += "Content-Type: multipart/mixed; boundary=\""+messageSeperator+"\"" + CRLF;
+        Headers += "Content-Type: multipart/mixed; boundary=\""+messageSeperator+"\"" + CRLF; //the content type multipart/mixed is used when a message is made up of different data types
 
+        //the body, this has the text message in it
         Body = "--"+messageSeperator + CRLF;
-        Body += "Content-Type: text/plain; charset=\"us-ascii\"" + CRLF + CRLF;
+        Body += "Content-Type: text/plain; charset=\"us-ascii\"" + CRLF + CRLF; //text/plain type is used when the text is readable text
         Body += text + CRLF + CRLF;
         Body += "--"+messageSeperator + CRLF;
 
-        Body += "Content-Type:image/png; name=bannedXD.png" + CRLF;
-        Body += "Content-Disposition: attachment;filename=\"bannedXD.png\"" + CRLF;
-        Body += "Content-transfer-encoding: base64" + CRLF + CRLF;
+        //the picture
+        Body += "Content-Type:image/png; name=thumbsup.png" + CRLF; // image/png type, is used for pictures
+        Body += "Content-Disposition: attachment;filename=\"thumbsup.png\"" + CRLF;
+        Body += "Content-transfer-encoding: base64" + CRLF + CRLF; //content transfer encoding is used when the message has an encoded part
         Body += base64EncodedPic;
         Body += CRLF + CRLF + "--"+messageSeperator;
 
+        //ending the message
         Body += CRLF + CRLF + "--"+messageSeperator+"--" + CRLF;
     }
 
+    // a function which encodes the picture into base64
     public static String encodeToString() throws IOException {
         String base64encodedImage = null;
-        BufferedImage pictureInput = ImageIO.read(new File("banned2.png"));
+        BufferedImage pictureInput = ImageIO.read(new File("thumbsup.png"));
         ByteArrayOutputStream pictureOutput = new ByteArrayOutputStream();
 
         try {
@@ -103,7 +112,6 @@ public class Message {
         return true;
     }
 
-    /* For printing the message. */
     public String toString() {
         String res;
 

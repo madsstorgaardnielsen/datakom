@@ -11,21 +11,23 @@ public class SMTPConnection {
     private static final int SMTP_PORT = 25;
     private static final String CRLF = "\r\n";
 
-    /* The socket to the server */
     private Socket connection;
-    /* Streams for reading and writing the socket */
     private BufferedReader fromServer;
     private DataOutputStream toServer;
-    /* Are we connected? Used in close() to determine what to do. */
     private boolean isConnected;
 
-    /* Create an SMTPConnection object. Create the socket and the
-       associated streams. Initialize SMTP connection. */
-    public SMTPConnection(Envelope envelope) throws IOException {
+    SMTPConnection(Envelope envelope) throws IOException {
+        //a socket connection object, the parameters are destination address and SMTP port, when both computers have this information, they are able to communicate
         connection = new Socket(envelope.DestAddr, SMTP_PORT);
+
+        //buffered reader reads the answers from the server and saves it in the variable "fromServer"
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        //Outputstream, this is what i send to the server
         toServer = new DataOutputStream(connection.getOutputStream());
 
+        //when the server replies, the if statement checks the reply, and if it is anything else than 220 (The server is ready (response to the client’s attempt to establish a TCP connection))
+        //then i print out the reply and throw an exception
         String serverReply = fromServer.readLine();
         if (parseReply(serverReply) != 220) {
             System.out.println("SMTP Connection fejl");
@@ -33,28 +35,25 @@ public class SMTPConnection {
             throw new IOException();
         }
 
+        //a variable to save my IP address
         String localhost = InetAddress.getLocalHost().getHostName();
 
+        //initial command to start the connection with the server
         sendCommand("HELO " + localhost, 250);
 
         isConnected = true;
     }
 
-    /* Send the message. Write the correct SMTP-commands in the
-       correct order. No checking for errors, just throw them to the
-       caller. */
-    public void send(Envelope envelope) throws IOException {
+    //"the message" which is sent for more information, please go to the message Class
+    void send(Envelope envelope) throws IOException {
         sendCommand("MAIL FROM: <" + envelope.Sender + ">", 250);
         sendCommand("RCPT TO: <" + envelope.Recipient + ">", 250);
         sendCommand("DATA", 354);
-
-        //besked
         sendCommand(envelope.Message.toString() + CRLF + ".", 250);
     }
 
-    /* Close the connection. First, terminate on SMTP level, then
-       close the socket. */
-    public void close() {
+    //this method is for closing the connection to the server, the code 221 means the server closed the transmission channel
+    void close() {
         isConnected = false;
         try {
             sendCommand("QUIT", 221);
@@ -65,29 +64,24 @@ public class SMTPConnection {
         }
     }
 
-    /* Send an SMTP command to the server. Check that the reply code is
-       what is is supposed to be according to RFC 821. */
+    //this function sends the command + CRLF to the server, and then the reply is saved in the reply variable, then the if statement checks if we got the rc we expected.
     private void sendCommand(String command, int rc) throws IOException {
         String reply;
-
         toServer.writeBytes(command + CRLF);
-        if (rc == 0)
-            return;
-
         reply = fromServer.readLine();
         if (parseReply(reply) != rc) {
             throw new IOException();
         }
     }
 
-    /* Parse the reply line from the server. Returns the reply code. */
+    //this method breaks the reply into a "token" and parses it into an integer
     private int parseReply(String reply) {
         StringTokenizer parser = new StringTokenizer(reply);
         String replyToken = parser.nextToken();
         return new Integer(replyToken);
     }
 
-    /* Destructor. Closes the connection if something bad happens. */
+
     protected void finalize() throws Throwable {
         if (isConnected) {
             close();
