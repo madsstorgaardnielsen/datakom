@@ -131,12 +131,16 @@ public class MailClient extends Frame {
             }
 
             /* Create the message */
-            Message mailMessage;
+            Message mailMessage = null;
 
-            mailMessage = new Message(fromField.getText(),
-                    toField.getText(),
-                    subjectField.getText(),
-                    messageText.getText());
+            try {
+                mailMessage = new Message(fromField.getText(),
+                        toField.getText(),
+                        subjectField.getText(),
+                        messageText.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
 	    /* Check that the message is valid, i.e., sender and
