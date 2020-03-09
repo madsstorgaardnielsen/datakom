@@ -22,6 +22,7 @@ public class Message {
     private String From;
     private String To;
     public String base64EncodedPic = encodeToString();
+    public String messageSeperator = "sep";
 
     public Message(String from, String to, String subject, String text) throws IOException {
         From = from.trim();
@@ -34,20 +35,20 @@ public class Message {
         Headers += "From: Mads Storgaard-Nielsen " + "<" + From + ">" + CRLF;
         Headers += "To: " + To + CRLF;
         Headers += "Subject: " + subject.trim() + CRLF;
-        Headers += "Content-Type: multipart/mixed; boundary=\"sep\"" + CRLF;
+        Headers += "Content-Type: multipart/mixed; boundary=\""+messageSeperator+"\"" + CRLF;
 
-        Body = "--sep" + CRLF;
+        Body = "--"+messageSeperator + CRLF;
         Body += "Content-Type: text/plain; charset=\"us-ascii\"" + CRLF + CRLF;
         Body += text + CRLF + CRLF;
-        Body += "--sep";
+        Body += "--"+messageSeperator + CRLF;
 
-        Body += "Content-Type:image/png; name=dtu.png" + CRLF;
+        Body += "Content-Type:image/png; name=bannedXD.png" + CRLF;
         Body += "Content-Disposition: attachment;filename=\"bannedXD.png\"" + CRLF;
         Body += "Content-transfer-encoding: base64" + CRLF + CRLF;
         Body += base64EncodedPic;
-        Body += CRLF + CRLF + "--";
+        Body += CRLF + CRLF + "--"+messageSeperator;
 
-        Body += CRLF + CRLF + "--sep" + CRLF;
+        Body += CRLF + CRLF + "--"+messageSeperator+"--" + CRLF;
     }
 
     public static String encodeToString() throws IOException {

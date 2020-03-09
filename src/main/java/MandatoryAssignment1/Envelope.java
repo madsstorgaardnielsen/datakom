@@ -1,10 +1,7 @@
 package MandatoryAssignment1;
 
-import java.io.*;
 import java.net.*;
 import java.util.*;
-
-/* $Id: Envelope.java,v 1.8 1999/09/06 16:43:20 kangasha Exp $ */
 
 /**
  * SMTP envelope for one mail message.

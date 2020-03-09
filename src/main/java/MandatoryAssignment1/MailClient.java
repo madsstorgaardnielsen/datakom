@@ -1,13 +1,8 @@
 package MandatoryAssignment1;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Base64;
-
-/* $Id: MailClient.java,v 1.7 1999/07/22 12:07:30 kangasha Exp $ */
 
 /**
  * A simple mail client with a GUI for sending mail.
@@ -19,16 +14,14 @@ public class MailClient extends Frame {
     private Button btSend = new Button("Send");
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
-    private Label serverLabel = new Label("Local mailserver:");
-    private TextField serverField = new TextField("104.47.0.36", 40); //dtu mailserver
+    private Label serverLabel = new Label("Mailserver:");
+    private TextField serverField = new TextField("74.125.129.27", 40); //dtu mailserver
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("virknuforfanden@nduaibdfauidasu.duasnsuadnsia", 40); //from
+    private TextField fromField = new TextField("virknuasddsaasdforfanden@nduaibdfauidasu.duasnsuadnsia", 40); //from
     private Label toLabel = new Label("To:");
-    private TextField toField = new TextField("s180076@win.dtu.dk", 40);
+    private TextField toField = new TextField("madsstorgaardnielsen@gmail.com", 40);
     private Label subjectLabel = new Label("Subject:");
     private TextField subjectField = new TextField("123", 40);
-    private Label imagePathLabel = new Label("Image path:");
-    private TextField imagePathField = new TextField("C:\\Users\\madsS\\IdeaProjects\\datakom\\banned2.png");
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea("cxzcxzcxz", 5, 40); //besked
 
@@ -80,7 +73,7 @@ public class MailClient extends Frame {
         show();
     }
 
-    static public void main(String[] argv) throws IOException {
+    static public void main(String[] argv) {
         new MailClient();
     }
 
@@ -138,7 +131,6 @@ public class MailClient extends Frame {
             System.out.println("Mail sent succesfully!");
         }
     }
-
 
     /* Clear the fields on the GUI. */
     class ClearListener implements ActionListener {
