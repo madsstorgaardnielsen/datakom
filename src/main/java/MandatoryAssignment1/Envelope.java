@@ -31,7 +31,6 @@ public class Envelope {
         Sender = message.getFrom();
         Recipient = message.getTo();
 
-
 	/* Get message. We must escape the message to make sure that
 	   there are no single periods on a line. This would mess up
 	   sending the mail. */
@@ -47,7 +46,6 @@ public class Envelope {
             System.out.println(e);
             throw e;
         }
-        return;
     }
 
     /* Escape the message by doubling all periods at the beginning of

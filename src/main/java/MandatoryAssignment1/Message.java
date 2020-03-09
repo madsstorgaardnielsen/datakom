@@ -16,41 +16,31 @@ import java.text.*;
  * @author Jussi Kangasharju
  */
 public class Message {
-    /* To make it look nicer */
     private static final String CRLF = "\r\n";
-    /* The headers and the body of the message. */
     public String Headers;
     public String Body;
-    /* Sender and recipient. With these, we don't need to extract them
-       from the headers. */
     private String From;
     private String To;
     public String base64EncodedPic = encodeToString();
 
-    /* Create the message object by inserting the required headers from
-       RFC 822 (From, To, Date). */
-
     public Message(String from, String to, String subject, String text) throws IOException {
-        /* Remove whitespace */
         From = from.trim();
         To = to.trim();
-
-
-        Headers = "MIME-Version: 1.0"+CRLF;
         SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
+
+        Headers = "MIME-Version: 1.0" + CRLF;
         Headers += "Date: " + dateString + CRLF;
         Headers += "From: Mads Storgaard-Nielsen " + "<" + From + ">" + CRLF;
         Headers += "To: " + To + CRLF;
         Headers += "Subject: " + subject.trim() + CRLF;
         Headers += "Content-Type: multipart/mixed; boundary=\"sep\"" + CRLF;
 
-        Body = "--sep"+CRLF;
+        Body = "--sep" + CRLF;
         Body += "Content-Type: text/plain; charset=\"us-ascii\"" + CRLF + CRLF;
-        Body+=text+CRLF+CRLF;
+        Body += text + CRLF + CRLF;
         Body += "--sep";
 
-        // adds the image, encoded with base64
         Body += "Content-Type:image/png; name=dtu.png" + CRLF;
         Body += "Content-Disposition: attachment;filename=\"bannedXD.png\"" + CRLF;
         Body += "Content-transfer-encoding: base64" + CRLF + CRLF;
@@ -58,9 +48,7 @@ public class Message {
         Body += CRLF + CRLF + "--";
 
         Body += CRLF + CRLF + "--sep" + CRLF;
-
     }
-
 
     public static String encodeToString() throws IOException {
         String base64encodedImage = null;

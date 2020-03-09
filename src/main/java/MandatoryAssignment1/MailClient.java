@@ -32,12 +32,11 @@ public class MailClient extends Frame {
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea("cxzcxzcxz", 5, 40); //besked
 
-
     /**
      * Create a new MailClient window with fields for entering all
      * the relevant information (From, To, Subject, and message).
      */
-    public MailClient() throws IOException {
+    public MailClient() {
         super("Java Mailclient");
 
 	/* Create panels for holding the fields. To make it look nice,
@@ -47,7 +46,6 @@ public class MailClient extends Frame {
         Panel toPanel = new Panel(new BorderLayout());
         Panel subjectPanel = new Panel(new BorderLayout());
         Panel messagePanel = new Panel(new BorderLayout());
-        //Panel imgPathPanel = new Panel(new BorderLayout());
         serverPanel.add(serverLabel, BorderLayout.WEST);
         serverPanel.add(serverField, BorderLayout.CENTER);
         fromPanel.add(fromLabel, BorderLayout.WEST);
@@ -56,8 +54,6 @@ public class MailClient extends Frame {
         toPanel.add(toField, BorderLayout.CENTER);
         subjectPanel.add(subjectLabel, BorderLayout.WEST);
         subjectPanel.add(subjectField, BorderLayout.CENTER);
-        //imgPathPanel.add(imagePathLabel,BorderLayout.WEST);
-        //imgPathPanel.add(imagePathField,BorderLayout.NORTH);
         messagePanel.add(messageLabel, BorderLayout.NORTH);
         messagePanel.add(messageText, BorderLayout.CENTER);
         Panel fieldPanel = new Panel(new GridLayout(0, 1));
@@ -65,7 +61,6 @@ public class MailClient extends Frame {
         fieldPanel.add(fromPanel);
         fieldPanel.add(toPanel);
         fieldPanel.add(subjectPanel);
-        //fieldPanel.add(imgPathPanel);
 
 	/* Create a panel for the buttons and add listeners to the
 	   buttons. */
@@ -88,26 +83,6 @@ public class MailClient extends Frame {
     static public void main(String[] argv) throws IOException {
         new MailClient();
     }
-
-/*    public String imageString = encodeToString();
-
-    public static String encodeToString() throws IOException {
-        String base64encodedImage = null;
-        BufferedImage pictureInput = ImageIO.read(new File("banned2.png"));
-        ByteArrayOutputStream pictureOutput = new ByteArrayOutputStream();
-
-        try {
-            ImageIO.write(pictureInput, "png", pictureOutput);
-            byte[] imageBytes = pictureOutput.toByteArray();
-
-            base64encodedImage = Base64.getEncoder().encodeToString(imageBytes);
-
-            pictureOutput.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return base64encodedImage;
-    }*/
 
     /* Handler for the Send-button. */
     class SendListener implements ActionListener {
