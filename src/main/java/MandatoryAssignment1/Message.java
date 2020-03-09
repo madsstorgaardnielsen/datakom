@@ -1,5 +1,10 @@
 package MandatoryAssignment1;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.text.*;
 
@@ -20,30 +25,60 @@ public class Message {
        from the headers. */
     private String From;
     private String To;
-    private String img;
+    public String base64EncodedPic = encodeToString();
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
 
-    public Message(String from, String to, String subject, String text) {
+    public Message(String from, String to, String subject, String text) throws IOException {
         /* Remove whitespace */
         From = from.trim();
         To = to.trim();
-        Headers = "From: Mads Storgaard-Nielsen " + "<" + From + ">" + CRLF;
-        Headers += "To: " + To + CRLF;
-        Headers += "Subject: " + subject.trim() + CRLF;
 
-	/* A close approximation of the required format. Unfortunately
-	   only GMT. */
-        SimpleDateFormat format =
-                new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
+
+        Headers = "MIME-Version: 1.0"+CRLF;
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
         Headers += "Date: " + dateString + CRLF;
-        //img = base64image;
-        Body = text;
+        Headers += "From: Mads Storgaard-Nielsen " + "<" + From + ">" + CRLF;
+        Headers += "To: " + To + CRLF;
+        Headers += "Subject: " + subject.trim() + CRLF;
+        Headers += "Content-Type: multipart/mixed; boundary=\"sep\"" + CRLF;
+
+        Body = "--sep"+CRLF;
+        Body += "Content-Type: text/plain; charset=\"us-ascii\"" + CRLF + CRLF;
+        Body+=text+CRLF+CRLF;
+        Body += "--sep";
+
+        // adds the image, encoded with base64
+        Body += "Content-Type:image/png; name=dtu.png" + CRLF;
+        Body += "Content-Disposition: attachment;filename=\"bannedXD.png\"" + CRLF;
+        Body += "Content-transfer-encoding: base64" + CRLF + CRLF;
+        Body += base64EncodedPic;
+        Body += CRLF + CRLF + "--";
+
+        Body += CRLF + CRLF + "--sep" + CRLF;
 
     }
 
+
+    public static String encodeToString() throws IOException {
+        String base64encodedImage = null;
+        BufferedImage pictureInput = ImageIO.read(new File("banned2.png"));
+        ByteArrayOutputStream pictureOutput = new ByteArrayOutputStream();
+
+        try {
+            ImageIO.write(pictureInput, "png", pictureOutput);
+            byte[] imageBytes = pictureOutput.toByteArray();
+
+            base64encodedImage = Base64.getEncoder().encodeToString(imageBytes);
+
+            pictureOutput.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return base64encodedImage;
+    }
 
     /* Two functions to access the sender and recipient. */
     public String getFrom() {

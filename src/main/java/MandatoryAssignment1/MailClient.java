@@ -20,9 +20,9 @@ public class MailClient extends Frame {
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
     private Label serverLabel = new Label("Local mailserver:");
-    private TextField serverField = new TextField("104.47.1.36", 40); //dtu mailserver
+    private TextField serverField = new TextField("104.47.0.36", 40); //dtu mailserver
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("mdsadsadsadsaads@madsmadsmdsiakdmsiao.com", 40); //from
+    private TextField fromField = new TextField("virknuforfanden@nduaibdfauidasu.duasnsuadnsia", 40); //from
     private Label toLabel = new Label("To:");
     private TextField toField = new TextField("s180076@win.dtu.dk", 40);
     private Label subjectLabel = new Label("Subject:");

@@ -78,7 +78,6 @@ public class SMTPConnection {
        correct order. No checking for errors, just throw them to the
        caller. */
     public void send(Envelope envelope) throws IOException {
-
         sendCommand("MAIL FROM: <" + envelope.Sender + ">", 250);
         sendCommand("RCPT TO: <" + envelope.Recipient + ">", 250);
         sendCommand("DATA", 354);
